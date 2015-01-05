@@ -45,14 +45,14 @@ public class CurrencyServer {
         Context context = Kiara.createContext();
         Server server = context.createServer();
 
-        // create and register yahoo converter
-        // CurrencyExchangeServant yahooConverter = new
-        // CurrencyExchangeServantYahooImpl();
-        // Service yahooService = context.createService();
-        // yahooService.register(yahooConverter);
-        // server.addService(yahooService, "tcp://0.0.0.0:9090", "cdr");
+        // create and register yahoo converter service
+        CurrencyExchangeServant yahooConverter = new
+        CurrencyExchangeServantYahooImpl();
+        Service yahooService = context.createService();
+        yahooService.register(yahooConverter);
+        server.addService(yahooService, "tcp://0.0.0.0:9090", "cdr");
 
-        // create and register fake converter
+        // create and register fake converter service
         CurrencyExchangeServant fakeConverter = new CurrencyExchangeServantFakeImpl();
         ServerTransport transport = context.createServerTransport("tcp://0.0.0.0:8080");
         Serializer serializer = context.createSerializer("cdr");
