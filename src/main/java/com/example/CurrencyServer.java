@@ -48,13 +48,13 @@ public class CurrencyServer {
 		Context context = Kiara.createContext();
 		Server server = context.createServer();
 		
-		CurrencyExchangeServant CurrencyConverter_impl = new CurrencyExchangeServantImpl();
+		CurrencyExchangeServant fakeConverter = new CurrencyExchangeServantFakeImpl();
 		
 		ServerTransport transport = context.createServerTransport("tcp://0.0.0.0:8080");
 		Serializer serializer = context.createSerializer("cdr");
 		Service service = context.createService();
 		
-		service.register(CurrencyConverter_impl);
+		service.register(fakeConverter);
 		
 		//Add service waiting on TCP with CDR serialization
 		server.addService(service, transport, serializer);
