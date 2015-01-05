@@ -5,7 +5,7 @@ struct ExchangeRate
        string from;
        string to;
        float32 rate;
-       i32 timestamp;
+       i64 timestamp;
        float32 ask;
        float32 bid;
 };
