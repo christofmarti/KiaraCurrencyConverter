@@ -1,0 +1,120 @@
+import java.io.File;
+import java.util.List;
+
+import org.gradle.api.tasks.Input;
+import org.gradle.api.tasks.InputDirectory;
+import org.gradle.api.tasks.Optional;
+import org.gradle.api.tasks.OutputDirectory;
+
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        jcenter()
+    }
+    dependencies {
+        classpath "org.fiware.kiara:kiaragen-gradle-plugin:0.1.0"
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.fiware.kiara.kiaragen'
+
+sourceCompatibility = 1.7
+version = '1.0'
+description = "KIARA Currency Converter Demo"
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+    compile group: 'org.fiware.kiara', name: 'KIARA', version: '0.1.1'
+     compile group: 'commons-collections', name: 'commons-collections', version: '3.2'
+    testCompile group: 'junit', name: 'junit', version: '4.+'
+}
+
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'Currency Converter', 'Implementation-Version': version
+    }
+}
+
+kiaragen {
+    //sourceDir = project.file("src/main/idl")
+    //outputDir = project.file("${buildDir}/generated-src/kiara")
+    //idlExtension = 'idl'
+    //platform = 'java'
+    //example = false
+    //platform = 'java'
+    //srcPath = ''
+    //javaPackage = null
+    //example = true
+    //ppDisable = true
+    //ppPath = null
+    //tempDir = null;
+    //includePaths = []
+}
+    
+
+
+task printSourceSets << {
+    
+    sourceSets.each() { sourceSet ->
+        String taskName = sourceSet.getTaskName('','kiaragen')
+        println "${sourceSet}"
+        println "Name: ${sourceSet.name}"
+        println "ClassesTaskName: ${sourceSet.classesTaskName}"
+        println "CompileConfigName: ${sourceSet.compileConfigurationName}"
+        println "CompileClasspath: ${sourceSet.compileClasspath}"
+        println "CompileJavaTaskName: ${sourceSet.compileJavaTaskName}"
+        println "JarTaskName: ${sourceSet.jarTaskName}"
+        println "JavaSrc: ${sourceSet.java}"
+        println "Output: ${sourceSet.output}"
+        println "ResourcesProcessTask: ${sourceSet.processResourcesTaskName}"
+        println "Resources: ${sourceSet.resources}"
+        println "RuntimeConfigName: ${sourceSet.runtimeConfigurationName}"
+        println "RuntimeClasspath: ${sourceSet.runtimeClasspath}"
+        println "AllJava: ${sourceSet.allJava}"
+        println "AllSource: ${sourceSet.allSource}"
+        println "taskname: ${taskName}"
+        
+        
+//        println "Dependencies: ${sourceSet.dependencies}"
+//        println "Artifacts: ${sourceSet.artifacts}"
+//        println "Hierarchy: ${sourceSet.hierarchy}"
+//        println "Visible: ${sourceSet.visible}"
+        println "------------"
+
+    }
+    println "${project.sourceSets.main.java.srcDirs}"
+}
+
+task printConfigurations << {
+    configurations.each() { configuration ->
+        println "${configuration}"
+        println "Name: ${configuration.name}"
+        println "Description: ${configuration.description}"
+        println "Dependencies: ${configuration.dependencies}"
+        println "Artifacts: ${configuration.artifacts}"
+        println "Hierarchy: ${configuration.hierarchy}"
+        println "Visible: ${configuration.visible}"
+        println "------------"
+        
+    }
+}
+
+task printKiaragenInfo << {
+    Task kiaragen = project.tasks.kiaragen
+    println "${kiaragen}"
+    println "${kiaragen.convention}"
+    println kiaragen.conventionMapping
+    println kiaragen.extensions
+    println "${project.sourceSets.main.java.srcDirs}"
+    println kiaragen.platform
+    println kiaragen.example
+    println kiaragen.sourceDir
+    println kiaragen.tempDir
+}

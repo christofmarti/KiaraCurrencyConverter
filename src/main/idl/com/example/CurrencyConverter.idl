@@ -1,0 +1,18 @@
+struct ExchangeRate
+{
+       string id;
+       string name;
+       string from;
+       string to;
+       float32 rate;
+       i32 timestamp;
+       float32 ask;
+       float32 bid;
+};
+
+service CurrencyExchange
+{
+    ExchangeRate lookup(string from, string to);
+    //float convert(string from, string to, @Optional float32 value);
+    float convert(string from, string to, float32 value);
+};
