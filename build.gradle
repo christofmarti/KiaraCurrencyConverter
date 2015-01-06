@@ -14,14 +14,17 @@ buildscript {
     }
     dependencies {
         classpath "org.fiware.kiara:kiaragen-gradle-plugin:0.1.0"
+        classpath "us.kirchmeier:gradle-capsule-plugin:0.10.0"
     }
 }
 
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'org.fiware.kiara.kiaragen'
+apply plugin: 'us.kirchmeier.capsule'
 
 sourceCompatibility = 1.7
+group = 'com.example'
 version = '1.0'
 description = "KIARA Currency Converter Demo"
 
@@ -57,8 +60,56 @@ kiaragen {
     //includePaths = []
 }
     
+// additional tasks e.g. runClient/runServer
+task runClient(type: JavaExec) {
+    group 'running'
+    description 'Runs Client'
+    dependsOn 'classes'
+    main = 'com.example.CurrencyClient'
+    classpath = sourceSets.main.runtimeClasspath
+    args ''
+}
 
+task runServer(type: JavaExec) {
+    group 'running'
+    description 'Runs Server'
+    dependsOn 'classes'
+    main = 'com.example.CurrencyServer'
+    classpath = sourceSets.main.runtimeClasspath
+    args ''
+}
 
+// create 
+task clientJar (type:FatCapsule) {
+    group 'build'
+    description "Build executable JAR for client using capsule"
+    applicationClass 'com.example.CurrencyClient'
+    classifier = "client"
+    capsuleManifest.applicationName = project.group+".CurrencyServer"
+    capsuleManifest.applicationVersion = project.version
+    capsuleManifest.minJavaVersion = '1.7.0'
+    //capsuleManifest.extractCapsule = false  // false in case of ThinCapsule
+    capsuleManifest.repositories << 'local'  // remove for production
+    capsuleManifest.repositories << 'central'
+}
+
+task serverJar (type:FatCapsule) {
+    group 'build'
+    description "Build executable JAR for server using capsule"
+    applicationClass 'com.example.CurrencyServer'
+    classifier = "server"
+    capsuleManifest.applicationName = project.group+".CurrencyClient"
+    capsuleManifest.applicationVersion = project.version
+    capsuleManifest.minJavaVersion = '1.7.0'
+    //capsuleManifest.extractCapsule = false  // false in case of ThinCapsule
+    capsuleManifest.repositories << 'local'  // remove for production
+    capsuleManifest.repositories << 'central'
+}
+
+    
+/* 
+ * DEBUG tasks
+ */
 task printSourceSets << {
     
     sourceSets.each() { sourceSet ->
