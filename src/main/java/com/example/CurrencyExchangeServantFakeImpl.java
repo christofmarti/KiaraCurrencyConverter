@@ -70,20 +70,18 @@ class CurrencyExchangeServantFakeImpl extends CurrencyExchangeServant {
 
     private static Map<String, ExchangeRate> data = new HashMap<String, ExchangeRate>();
     static {
-        data.put("EURCHF", createExchange("EURCHF","EUR to CHF", "EUR", "CHF", 1.2018f, 1.2019f, 1.2018f, new Date().getTime()));
-        data.put("CHFEUR", createExchange("CHFEUR","CHF to EUR", "CHF", "EUR", 0.8321f, 0.8322f, 0.8321f, new Date().getTime()));
-        data.put("EURUSD", createExchange("EURUSD","EUR to USD", "EUR", "USD", 1.1907f, 1.1908f, 1.1907f, new Date().getTime()));
-        data.put("USDEUR", createExchange("USDEUR","USD to EUR", "USD", "EUR", 0.8397f, 0.8397f, 0.8397f, new Date().getTime()));
-        data.put("USDCHF", createExchange("USDCHF","USD to CHF", "USD", "CHF", 1.0092f, 1.0094f, 1.0089f, new Date().getTime()));
-        data.put("CHFUSD", createExchange("CHFUSD","CHF to USD", "CHF", "USD", 0.9911f, 0.9912f, 0.9911f, new Date().getTime()));
+        data.put("EURCHF", createExchange("EUR", "CHF", 1.2018f, 1.2019f, 1.2018f, new Date().getTime()));
+        data.put("CHFEUR", createExchange("CHF", "EUR", 0.8321f, 0.8322f, 0.8321f, new Date().getTime()));
+        data.put("EURUSD", createExchange("EUR", "USD", 1.1907f, 1.1908f, 1.1907f, new Date().getTime()));
+        data.put("USDEUR", createExchange("USD", "EUR", 0.8397f, 0.8397f, 0.8397f, new Date().getTime()));
+        data.put("USDCHF", createExchange("USD", "CHF", 1.0092f, 1.0094f, 1.0089f, new Date().getTime()));
+        data.put("CHFUSD", createExchange("CHF", "USD", 0.9911f, 0.9912f, 0.9911f, new Date().getTime()));
     };
 
-    private static ExchangeRate createExchange(String id, String name,
-            String from, String to, float rate, float ask, float bid,
-            long timestamp) {
+    private static ExchangeRate createExchange(String from, String to, 
+            float rate, float ask, float bid, long timestamp) {
         ExchangeRate exchange = new ExchangeRate();
-        exchange.setId(id);
-        exchange.setName(name);
+        exchange.setId(from+to);
         exchange.setFrom(from);
         exchange.setTo(to);
         exchange.setRate(rate);

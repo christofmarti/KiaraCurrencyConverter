@@ -1,7 +1,6 @@
 struct ExchangeRate
 {
        string id;
-       string name;
        string from;
        string to;
        float32 rate;
