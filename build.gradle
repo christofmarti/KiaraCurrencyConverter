@@ -1,4 +1,10 @@
+// Add the kiaragen plugin to your project (since gradle 2.1)
+//plugins {
+//  id "org.fiware.kiara.kiaragen" version "0.1.0"
+//  id "us.kirchmeier.capsule" version "0.10.0"
+//}
 
+// Add the kiaragen plugin to your project (before gradle 2.1 or while plugin not in catalog)
 buildscript {
     repositories {
         mavenLocal()
