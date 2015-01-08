@@ -44,10 +44,9 @@ class CurrencyExchangeServantFakeImpl extends CurrencyExchangeServant {
      * operation lookup. It has to be implemented by the child classes.
      */
 
-    public ExchangeRate lookup(/* in */java.lang.String from, /* in */
-            java.lang.String to) 
+    public ExchangeRate lookup(String fromCurrency, String toCurrency) 
     {
-        return data.get(from+to);
+        return data.get(fromCurrency+toCurrency);
     }
 
     /*
@@ -56,14 +55,11 @@ class CurrencyExchangeServantFakeImpl extends CurrencyExchangeServant {
      * @brief This method implements the proxy part of the protocol for the
      * operation convert. It has to be implemented by the child classes.
      */
-
-    public float convert(/* in */java.lang.String from, /* in */
-            java.lang.String to, /* in */float value) {
-
-        ExchangeRate exchange = data.get(from+to);
+    public float convert(String fromCurrency, String toCurrency, float amount) {
+        ExchangeRate exchange = data.get(fromCurrency+toCurrency);
         if (exchange != null) {
-            if (value == 0) value = 1;
-            return (float)(exchange.getRate() * value);
+            if (amount == 0) amount = 1;
+            return (float)(exchange.getRate() * amount);
         }
         return (float) 0.0;
     }

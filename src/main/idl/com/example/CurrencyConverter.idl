@@ -11,7 +11,7 @@ struct ExchangeRate
 
 service CurrencyExchange
 {
-    ExchangeRate lookup(string from, string to);
-    //float convert(string from, string to, @Optional float32 value);
-    float convert(string from, string to, float32 value);
+    ExchangeRate lookup(string fromCurrency, string toCurrency);
+    //float convert(string fromCurrency, string toCurrency, @Optional float32 amount);
+    float convert(string fromCurrency, string toCurrency, float32 amount);
 };

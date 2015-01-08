@@ -23,10 +23,6 @@
 
 package com.example;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * Class where the actual implementation of the procedures is located.
  *
@@ -42,8 +38,7 @@ class CurrencyExchangeServantYahooImpl extends CurrencyExchangeServant {
      * operation lookup. It has to be implemented by the child classes.
      */
 
-    public ExchangeRate lookup(/* in */java.lang.String from, /* in */
-            java.lang.String to) 
+    public ExchangeRate lookup(String fromCurrency, String toCurrency)
     {
         //TODO: Implement lookup to yahoo service
         // get info from yahoo with the following command:
@@ -59,14 +54,11 @@ class CurrencyExchangeServantYahooImpl extends CurrencyExchangeServant {
      * @brief This method implements the proxy part of the protocol for the
      * operation convert. It has to be implemented by the child classes.
      */
-
-    public float convert(/* in */java.lang.String from, /* in */
-            java.lang.String to, /* in */float value) {
-
-        ExchangeRate exchange = this.lookup(from, to);
+    public float convert(String fromCurrency, String toCurrency, float amount) {
+        ExchangeRate exchange = this.lookup(fromCurrency, toCurrency);
         if (exchange != null) {
-            if (value == 0) value = 1;
-            return (float)(exchange.getRate() * value);
+            if (amount == 0) amount = 1;
+            return (float)(exchange.getRate() * amount);
         }
         return (float) 0.0;
     }

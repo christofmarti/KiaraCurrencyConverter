@@ -25,9 +25,10 @@ package com.example;
 
 import org.fiware.kiara.Context;
 import org.fiware.kiara.Kiara;
+import org.fiware.kiara.serialization.Serializer;
+import org.fiware.kiara.server.Servant;
 import org.fiware.kiara.server.Server;
 import org.fiware.kiara.server.Service;
-import org.fiware.kiara.serialization.Serializer;
 import org.fiware.kiara.transport.ServerTransport;
 
 /**
@@ -46,14 +47,13 @@ public class CurrencyServer {
         Server server = context.createServer();
 
         // create and register yahoo converter service
-        CurrencyExchangeServant yahooConverter = new
-        CurrencyExchangeServantYahooImpl();
+        Servant yahooConverter = new CurrencyExchangeServantYahooImpl();
         Service yahooService = context.createService();
         yahooService.register(yahooConverter);
         server.addService(yahooService, "tcp://0.0.0.0:9090", "cdr");
 
         // create and register fake converter service
-        CurrencyExchangeServant fakeConverter = new CurrencyExchangeServantFakeImpl();
+        Servant fakeConverter = new CurrencyExchangeServantFakeImpl();
         ServerTransport transport = context.createServerTransport("tcp://0.0.0.0:8080");
         Serializer serializer = context.createSerializer("cdr");
         Service fakeService = context.createService();
